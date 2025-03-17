@@ -1,6 +1,8 @@
 #Requires -RunAsAdministrator
 #Requires -Version 4.0
 
+chcp 1251
+
 secedit /export /cfg ./secpool.cfg
 
 Write-Host 'Начало проверки'
@@ -12,5 +14,5 @@ $result = Get-Content ./secpool.cfg | Select-String "PasswordHistorySize" | sele
 
 $recomendation += $result
 
-Clean-Value($recomendation)
-Clean-Value($result)
+$recomendation = $null
+$result = $null
