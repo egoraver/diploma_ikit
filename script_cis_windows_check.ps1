@@ -8,7 +8,7 @@ secedit /export /cfg ./secpool.cfg
 #Get the date
 $Date = Get-Date -U %d%m%Y
 
-$result_file = "audit" + $date + "-" + $Win +".txt"
+$result_file = "audit" + $date + "-Win" + ".txt"
 
 Write-Host 'Start checkout'
 
