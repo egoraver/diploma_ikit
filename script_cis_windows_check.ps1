@@ -1,4 +1,5 @@
 #Requires -RunAsAdministrator
+#Requires -Version 4.0
 
 secedit /export /cfg ./secpool.cfg
 
