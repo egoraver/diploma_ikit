@@ -1,7 +1,7 @@
 #Requires -RunAsAdministrator
 #Requires -Version 4.0
 
-chcp 65001
+chcp 1251
 
 secedit /export /cfg ./secpool.cfg
 
