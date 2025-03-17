@@ -8,32 +8,38 @@ $recommendations = Get-Content -Path $recommendationsFile | ConvertFrom-Json
 
 $results = @()
 
+$secpoolFile = "./secpool.cfg"
+
+$secpoolContent = Get-Content -Path $secpoolFile
+
+$secpoolSettings = @{}
+foreach ($line in $secpoolContent) {
+    if ($line -match "^\s*(\S+)\s*=\s*(\S+)\s*$") {
+        $key = $matches[1]
+        $value = $matches[2]
+        $secpoolSettings[$key] = $value
+    }
+}
 
 foreach ($recommendation in $recommendations) {
-    $currentValue = $null
-    $status = "Unknown"
+    $key = $recommendation.Key
+    $expectedValue = $recommendation.ExpectedValue
+    $currentValue = $secpoolSettings[$key]
 
-    # Проверка типа рекомендации (например, реестр)
-    if ($recommendation.Type -eq "Registry") {
-        # Получаем текущее значение из реестра
-        $currentValue = Get-ItemProperty -Path $recommendation.Path -Name $recommendation.Key -ErrorAction SilentlyContinue
-
-        if ($currentValue -eq $null) {
-            $status = "Key not found"
-        } elseif ($currentValue.$($recommendation.Key) -eq $recommendation.ExpectedValue) {
-            $status = "Compliant"
-        } else {
-            $status = "Non-Compliant"
-        }
+    if ($currentValue -eq $null) {
+        $status = "Key not found"
+    } elseif ($currentValue -eq $expectedValue) {
+        $status = "Compliant"
+    } else {
+        $status = "Non-Compliant"
     }
 
     # Добавляем результат в массив
     $results += [PSCustomObject]@{
         Description = $recommendation.Description
-        Path        = $recommendation.Path
-        Key         = $recommendation.Key
-        Expected    = $recommendation.ExpectedValue
-        Current     = if ($currentValue -eq $null) { "N/A" } else { $currentValue.$($recommendation.Key) }
+        Key         = $key
+        Expected    = $expectedValue
+        Current     = if ($currentValue -eq $null) { "N/A" } else { $currentValue }
         Status      = $status
     }
 }
