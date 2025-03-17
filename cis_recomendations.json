@@ -1,0 +1,23 @@
+[
+    {
+        "Description": "1.1.1 (L1) Ensure 'Enforce password history' is set to '24 or more password(s)' (Automated)",
+        "Type": "Policy",
+        "Path": "./secpool.cfg",
+        "Key": "PasswordHistorySize",
+        "ExpectedValue": 24
+    },
+    {
+        "Description": "D1.1.2 (L1) Ensure 'Maximum password age' is set to '365 or fewer days, but not 0' (Automated)",
+        "Type": "Policy",
+        "Path": "./secpool.cfg",
+        "Key": "MaximumPasswordAge",
+        "ExpectedValue": 365
+    },
+    {
+        "Description": "1.1.3 (L1) Ensure 'Minimum password age' is set to '1 or more day(s)' (Automated)",
+        "Type": "Policy",
+        "Path": "./secpool.cfg",
+        "Key": "MinimumPasswordAge",
+        "ExpectedValue": 1
+    }
+]
